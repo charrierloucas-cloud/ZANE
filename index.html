@@ -1,0 +1,270 @@
+
+  1  <!DOCTYPE html>
+  2  <html lang="fr">
+  3  <head>
+  4  <meta charset="utf-8">
+  5  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  6  <title>ovlix</title>
+  7  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap">
+  8  <style>
+  9  :root{--bg:#f6f4f1;--surf:#fff;--line:#e2dcd5;--text:#1b1f2a;--mute:#6a6560;--acc:#e8365b;--accT:#fff;--stage:#121826;--oc:#ff5a7a;
+ 10  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+ 11  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1420;--surf:#171f30;--line:#2b3550;--text:#eef1f8;--mute:#9aa4bd;--acc:#ff5a7a;--accT:#1b0a10;--stage:#070b13;color-scheme:dark}}
+ 12  :root[data-theme="dark"]{--bg:#0e1420;--surf:#171f30;--line:#2b3550;--text:#eef1f8;--mute:#9aa4bd;--acc:#ff5a7a;--accT:#1b0a10;--stage:#070b13;color-scheme:dark}
+ 13  *{box-sizing:border-box}
+ 14  html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+ 15  body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.55 Barlow,system-ui,sans-serif}
+ 16  main{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+ 17  h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;line-height:1.05;margin:0}
+ 18  h1{font-size:clamp(2.8rem,11vw,4.8rem);max-width:12ch}
+ 19  h2{font-size:2rem;margin:48px 0 6px}
+ 20  h3{font-size:1.25rem}
+ 21  .lead{color:var(--mute);max-width:52ch;margin:12px 0 18px}
+ 22  .btn{display:inline-block;padding:12px 22px;border-radius:10px;border:0;background:var(--acc);color:var(--accT);font:500 1rem Barlow,sans-serif;cursor:pointer;text-decoration:none}
+ 23  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+ 24  .btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+ 25  .sub{color:var(--mute);margin:0 0 14px}
+ 26  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
+ 27  .chip{padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surf);color:var(--text);font:inherit;cursor:pointer}
+ 28  .chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+ 29  .col{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:.9rem;color:var(--mute)}
+ 30  .col input{width:38px;height:32px;padding:0;border:0;background:none;cursor:pointer}
+ 31  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+ 32  @media (max-width:620px){.grid{grid-template-columns:1fr}}
+ 33  .card{background:var(--surf);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+ 34  .card .info{padding:12px 14px 14px}
+ 35  .card p{margin:4px 0 0;color:var(--mute);font-size:.92rem}
+ 36  .tag{float:right;font-size:.78rem;font-weight:500;padding:3px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--line)}
+ 37  .tag.pro{background:var(--acc);color:var(--accT);border-color:var(--acc)}
+ 38  .stage{height:150px;background:var(--stage);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;font-family:Barlow,sans-serif}
+ 39  .stage.tall{height:170px}
+ 40  .pill{background:rgba(255,255,255,.1);border:2px solid var(--oc);border-radius:99px;padding:8px 18px;font:700 1.5rem "Barlow Condensed",sans-serif;display:flex;gap:10px;align-items:center}
+ 41  .dot{width:10px;height:10px;border-radius:50%;background:var(--oc)}
+ 42  .goal{width:80%}
+ 43  .goal .t{display:flex;justify-content:space-between;font-weight:500;margin-bottom:6px}
+ 44  .goal .b{height:16px;border-radius:8px;background:rgba(255,255,255,.14);overflow:hidden}
+ 45  .goal .b i{display:block;height:100%;width:68%;background:var(--oc);border-radius:8px}
+ 46  .frame{width:70%;height:78%;border:4px solid var(--oc);border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.85rem}
+ 47  .frame::after{content:"";position:absolute;left:-4px;bottom:-4px;width:36px;height:36px;border-left:8px solid #fff;border-bottom:8px solid #fff;border-radius:0 0 0 14px}
+ 48  .brb{text-align:center}
+ 49  .brb b{display:block;font:700 2rem "Barlow Condensed",sans-serif;color:var(--oc)}
+ 50  .alert{background:var(--oc);color:#12080b;border-radius:12px;padding:12px 20px;text-align:center;font-weight:500}
+ 51  .alert b{display:block;font:700 1.6rem "Barlow Condensed",sans-serif}
+ 52  .likes{display:flex;align-items:center;gap:10px;font:700 2.2rem "Barlow Condensed",sans-serif}
+ 53  .heart{width:30px;height:30px;background:var(--oc);clip-path:path("M15 28 C-8 12 4 -4 15 7 C26 -4 38 12 15 28Z")}
+ 54  .donor{width:82%;background:rgba(255,255,255,.08);border-left:6px solid var(--oc);padding:10px 14px;border-radius:0 10px 10px 0}
+ 55  .donor small{color:rgba(255,255,255,.65);display:block}
+ 56  .donor b{font:700 1.4rem "Barlow Condensed",sans-serif}
+ 57  .timer{font:700 3rem "Barlow Condensed",sans-serif;letter-spacing:.04em;color:var(--oc)}
+ 58  .ticker{position:absolute;left:0;right:0;bottom:30px;background:var(--oc);color:#12080b;padding:8px 0;overflow:hidden;white-space:nowrap;font-weight:500}
+ 59  .ticker span{display:inline-block;padding-left:100%;animation:tk 14s linear infinite}
+ 60  @keyframes tk{to{transform:translateX(-100%)}}
+ 61  .start{text-align:center}
+ 62  .start b{display:block;font:700 2.4rem "Barlow Condensed",sans-serif}
+ 63  .start span{color:var(--oc);font:700 1.6rem "Barlow Condensed",sans-serif}
+ 64  .price{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+ 65  @media (max-width:620px){.price{grid-template-columns:1fr}}
+ 66  .plan{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:20px}
+ 67  .plan.pro{border:2px solid var(--acc)}
+ 68  .amt{font:700 3rem "Barlow Condensed",sans-serif;line-height:1;margin:8px 0}
+ 69  .amt small{font-size:1rem;color:var(--mute);font-weight:600}
+ 70  .plan ul{padding-left:20px;margin:12px 0 18px}
+ 71  .plan li{margin:5px 0}
+ 72  .msg{margin-top:12px;padding:12px;border-radius:10px;background:var(--surf);border:1px dashed var(--acc);display:none}
+ 73  ol.steps{padding-left:20px}
+ 74  ol.steps li{margin:8px 0}
+ 75  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:20}
+ 76  nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;align-items:center;padding:8px 12px;overflow-x:auto;white-space:nowrap}
+ 77  nav.top b{font:700 1.3rem "Barlow Condensed",sans-serif;margin-right:auto;padding-right:12px}
+ 78  nav.top a{color:var(--mute);text-decoration:none;padding:8px 12px;border-radius:99px;font-weight:500;transition:color .2s,background .2s,box-shadow .2s}
+ 79  nav.top a:hover{color:var(--text)}
+ 80  nav.top a.on{color:var(--accT);background:var(--acc);box-shadow:0 0 16px var(--acc)}
+ 81  nav.top a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+ 82  .promo{display:flex;gap:8px;margin:0 0 14px}
+ 83  .promo input,.adm input,.adm textarea,.key{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+ 84  .promo .btn{padding:10px 16px;white-space:nowrap}
+ 85  .pm{font-size:.9rem;min-height:1.4em;margin:0 0 10px;color:var(--mute)}
+ 86  .old{text-decoration:line-through;color:var(--mute);font-size:1.4rem;margin-right:6px}
+ 87  .lk{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+ 88  .lk:last-child{border:0}
+ 89  .lk code{display:block;font-size:.8rem;color:var(--mute);word-break:break-all}
+ 90  .lk .btn{padding:8px 14px;font-size:.9rem;white-space:nowrap}
+ 91  .lock{opacity:.55}
+ 92  .panel{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px}
+ 93  .adm{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+ 94  @media (max-width:620px){.adm{grid-template-columns:1fr}}
+ 95  .adm textarea{min-height:120px;font-family:monospace;font-size:.85rem}
+ 96  .adm label{display:block;font-size:.85rem;color:var(--mute);margin-bottom:4px}
+ 97  footer{margin-top:40px;font-size:.85rem;color:var(--mute)}
+ 98  @media (prefers-reduced-motion:reduce){.ticker span{animation:none;padding-left:12px}html{scroll-behavior:auto}}
+ 99  </style>
+100  </head>
+101  <body>
+102  <nav class="top" aria-label="Menu"><b>ovlix</b><a href="#overlays">Overlays</a><a href="#tarifs">Tarifs</a><a href="#recuperer">Récupérer</a><a href="#comment">Aide</a></nav>
+103  <main>
+104  <h1>Overlays pour tes lives</h1>
+105  <p class="lead">Des habillages prêts pour OBS, TikTok LIVE Studio et YouTube. Commence avec les overlays gratuits, passe Premium pour tout débloquer.</p>
+106  <a class="btn" href="#overlays">Voir les overlays</a> <a class="btn ghost" href="#tarifs">Tarifs</a>
+107  
+108  <h2 id="overlays">Les overlays</h2>
+109  <p class="sub">Aperçus animés. Change la couleur pour voir le rendu avec ta marque.</p>
+110  <div class="bar">
+111  <button class="chip" data-f="all" aria-pressed="true">Tous</button>
+112  <button class="chip" data-f="free" aria-pressed="false">Gratuits</button>
+113  <button class="chip" data-f="pro" aria-pressed="false">Premium</button>
+114  <label class="col" for="color">Couleur <input id="color" type="color" value="#ff5a7a"></label>
+115  </div>
+116  <div class="grid" id="grid">
+117  
+118  <article class="card" data-t="free"><div class="stage"><div class="pill"><span class="dot"></span><span id="vw">1 284</span> viewers</div></div><div class="info"><span class="tag">Gratuit</span><h3>Compteur de viewers</h3><p>Affiche le nombre de spectateurs en direct, en style minimaliste.</p></div></article>
+119  
+120  <article class="card" data-t="free"><div class="stage"><div class="goal"><div class="t"><span>Objectif followers</span><span>680 / 1 000</span></div><div class="b"><i></i></div></div></div><div class="info"><span class="tag">Gratuit</span><h3>Barre d’objectif</h3><p>Une jauge pour motiver ta communauté à atteindre le prochain palier.</p></div></article>
+121  
+122  <article class="card" data-t="free"><div class="stage tall"><div class="frame">Ta webcam ici</div></div><div class="info"><span class="tag">Gratuit</span><h3>Cadre webcam</h3><p>Un cadre propre avec coin signature, adapté à un format vertical ou horizontal.</p></div></article>
+123  
+124  <article class="card" data-t="free"><div class="stage"><div class="brb"><b>Je reviens</b>Pause de 5 minutes</div></div><div class="info"><span class="tag">Gratuit</span><h3>Écran « Je reviens »</h3><p>Une scène de pause pour garder tes viewers pendant que tu t’absentes.</p></div></article>
+125  
+126  <article class="card" data-t="pro"><div class="stage"><div class="alert"><b>Nouveau follower !</b>@pseudo vient de te rejoindre</div></div><div class="info"><span class="tag pro">Premium</span><h3>Alerte nouveau follower</h3><p>Une alerte animée à chaque nouvel abonné, avec son pseudo.</p></div></article>
+127  
+128  <article class="card" data-t="pro"><div class="stage"><div class="likes"><span class="heart"></span><span>48 920</span></div></div><div class="info"><span class="tag pro">Premium</span><h3>Compteur de likes TikTok</h3><p>Un cœur et le total de likes du live, parfait pour les défis « on vise les 100 000 ».</p></div></article>
+129  
+130  <article class="card" data-t="pro"><div class="stage"><div class="donor"><small>Top soutien du live</small><b>@pseudo · 150 pièces</b></div></div><div class="info"><span class="tag pro">Premium</span><h3>Top soutien / dernier cadeau</h3><p>Met en avant la personne qui te soutient le plus pendant le direct.</p></div></article>
+131  
+132  <article class="card" data-t="pro"><div class="stage"><div class="start"><b>Le live commence</b><span>dans 04:32</span></div></div><div class="info"><span class="tag pro">Premium</span><h3>Écran de démarrage</h3><p>Un compte à rebours avant le début du live pour rassembler la communauté.</p></div></article>
+133  
+134  <article class="card" data-t="pro"><div class="stage"><div class="timer">02:47:15</div><div class="ticker"><span>Suis-moi sur TikTok · YouTube · Discord · Code créateur : ton-code</span></div></div><div class="info"><span class="tag pro">Premium</span><h3>Timer de live + bandeau réseaux</h3><p>La durée du live et un bandeau défilant avec tes liens et ton code créateur.</p></div></article>
+135  
+136  <article class="card" data-t="pro"><div class="stage"><div class="goal"><div class="t"><span>Défi du live</span><span>3 / 10 victoires</span></div><div class="b"><i style="width:30%"></i></div></div></div><div class="info"><span class="tag pro">Premium</span><h3>Compteur de défi</h3><p>Suis une victoire, une élimination ou un défi personnalisé en temps réel.</p></div></article>
+137  
+138  </div>
+139  
+140  <h2 id="tarifs">Tarifs</h2>
+141  <p class="sub">Un abonnement simple, sans option cachée.</p>
+142  <div class="price">
+143  <div class="plan"><h3>Gratuit</h3><div class="amt">0 €</div><ul><li>4 overlays de base</li><li>Changement de couleur</li><li>Compatible OBS</li></ul><a class="btn ghost" href="#overlays">Choisir un overlay</a></div>
+144  <div class="plan pro"><h3>Premium</h3><div class="amt"><span class="old" id="old"></span><span id="amt">10,90 €</span> <small>/ mois</small></div><ul><li>Tous les overlays, y compris les nouveautés</li><li>Alertes et compteurs animés (followers, likes, cadeaux)</li><li>Couleurs, polices et logo personnalisés</li><li>Support prioritaire</li></ul><div class="promo"><input id="code" placeholder="Code promo" aria-label="Code promo" autocomplete="off"><button class="btn ghost" id="apply">Appliquer</button></div><p class="pm" id="pm" role="status"></p><a class="btn" id="buy" href="#" target="_blank" rel="noopener">Payer l’abonnement</a><p class="pm">Paiement sécurisé.</p><div class="msg" id="msg" role="status"></div></div>
+145  </div>
+146  
+147  <h2 id="recuperer">Récupérer tes overlays</h2>
+148  <p class="sub">Après ton paiement, tu reçois ta clé d’accès Premium (par message privé ou email). Entre-la ici pour débloquer les liens.</p>
+149  <div class="panel">
+150  <div class="lk" style="border:0;padding-top:0"><input class="key" id="key" placeholder="Clé d’accès Premium" aria-label="Clé d’accès Premium" autocomplete="off"><button class="btn" id="unlock">Débloquer</button></div>
+151  <p class="pm" id="km" role="status"></p>
+152  <div id="links"></div>
+153  </div>
+154  
+155  <h2 id="comment">Comment ça marche</h2>
+156  <ol class="steps">
+157  <li>Choisis un overlay et personnalise sa couleur.</li>
+158  <li>Copie son lien dans OBS (source « Navigateur ») ou dans TikTok LIVE Studio.</li>
+159  <li>Place-le sur ta scène, ajuste la taille, et lance ton live.</li>
+160  </ol>
+161  
+162  <section id="admin" hidden><h2>Espace admin</h2>
+163  <div class="panel" id="gate"><p class="sub" id="gt"></p><input class="key" id="gpw" type="password" autocomplete="off" placeholder="Code admin" aria-label="Code admin"><div id="gconf" style="margin-top:8px"><input class="key" id="gpw2" type="password" autocomplete="off" placeholder="Confirme le code" aria-label="Confirme le code"></div><p class="pm" id="gm" role="status"></p><button class="btn" id="gbtn">Entrer</button></div>
+164  <div class="panel" id="ghash" hidden style="margin-top:12px"></div>
+165  <div id="adm" hidden><h2>Admin : générer des codes promo</h2>
+166  <p class="sub">Génère autant de codes que tu veux, puis colle les lignes dans <code>CONFIG.codes</code> en haut du script. Un code peut être utilisé un nombre illimité de fois.</p>
+167  <div class="panel"><div class="adm"><div><label for="gn">Nombre de codes</label><input id="gn" type="number" min="1" max="100" value="10"></div><div><label for="gp">Réduction (%)</label><input id="gp" type="number" min="1" max="100" value="20"></div><div><label for="gx">Préfixe</label><input id="gx" value="LIVE"></div></div>
+168  <button class="btn" id="gen">Générer</button><div class="adm" style="grid-template-columns:1fr"><textarea id="gout" readonly aria-label="Codes générés"></textarea></div>
+169  <p class="pm">Cette page est cachée, pas protégée : les codes restent lisibles dans le code du site. Pour des codes vraiment sécurisés, utilise les coupons de ton service de paiement.</p></div></div></section>
+170  <footer>Site non officiel, non affilié à TikTok, YouTube, Twitch ou OBS. Les marques citées appartiennent à leurs propriétaires. Overlays, chiffres et pseudos affichés : exemples.</footer>
+171  </main>
+172  <script>
+173  /* ===== À MODIFIER ===== */
+174  var CONFIG={
+175   PayPal:"https://www.paypal.me/ChartierLoucas", /* ton lien PayPal.me ou ton lien d’abonnement PayPal */
+176   price:10.90,
+177   base:"https://ton-site.com/overlays/", /* adresse où tu héberges les pages d’overlays */
+178   codes:{"lulubro":100,"STREAMER50":50}, /* CODE: réduction en % (utilisations illimitées) */
+179   adminHash:"", /* hash de ton code admin, affiché une seule fois à sa création */
+180   keys:["PREMIUM-DEMO"] /* clés d’accès à donner à chaque client */
+181  };
+182  var OVS=[["viewers","Compteur de viewers",1],["objectif","Barre d’objectif",1],["webcam","Cadre webcam",1],["brb","Écran « Je reviens »",1],["follower","Alerte nouveau follower",0],["likes","Compteur de likes TikTok",0],["soutien","Top soutien / dernier cadeau",0],["demarrage","Écran de démarrage",0],["timer","Timer + bandeau réseaux",0],["defi","Compteur de défi",0]];
+183  /* ===================== */
+184  var $=function(i){return document.getElementById(i)};
+185  document.querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
+186   document.querySelectorAll(".chip").forEach(function(x){x.setAttribute("aria-pressed",x===c)});
+187   var f=c.dataset.f;document.querySelectorAll("#grid .card").forEach(function(k){k.style.display=(f==="all"||k.dataset.t===f)?"":"none"});
+188  })});
+189  $("color").addEventListener("input",function(e){document.documentElement.style.setProperty("--oc",e.target.value)});
+190  function eur(n){return n.toFixed(2).replace(".",",")+" €"}
+191  var price=CONFIG.price;
+192  function setBuy(){
+193   var b=$("buy");
+194   if(price<=0){b.textContent="Accès offert";b.removeAttribute("target");b.href="#recuperer";return}
+195   b.textContent="Payer "+eur(price);b.target="_blank";
+196   b.href=/paypal\.me/.test(CONFIG.paypal)?CONFIG.paypal.replace(/\/$/,"")+"/"+price.toFixed(2)+"EUR":CONFIG.paypal;
+197  }
+198  $("buy").addEventListener("click",function(e){
+199   if(CONFIG.paypal.indexOf("TON_PSEUDO")>-1){e.preventDefault();$("msg").style.display="block";$("msg").textContent="Remplace TON_PSEUDO par ton pseudo PayPal dans CONFIG.paypal (en haut du script)."}
+200  });
+201  $("apply").addEventListener("click",function(){
+202   var c=$("code").value.trim().toUpperCase(),p=CONFIG.codes[c];
+203   if(!c){$("pm").textContent="Entre un code promo.";return}
+204   if(p===undefined){price=CONFIG.price;$("old").textContent="";$("amt").textContent=eur(price);$("pm").textContent="Code invalide.";setBuy();return}
+205   price=Math.max(0,Math.round(CONFIG.price*(100-p))/100);
+206   $("old").textContent=eur(CONFIG.price);$("amt").textContent=eur(price);
+207   $("pm").textContent="Code appliqué : −"+p+" %.";setBuy();
+208  });
+209  setBuy();
+210  function copy(t,btn){
+211   var done=function(){var o=btn.textContent;btn.textContent="Lien copié";setTimeout(function(){btn.textContent=o},1500)};
+212   try{navigator.clipboard.writeText(t).then(done,done)}catch(e){done()}
+213  }
+214  function links(unlocked){
+215   $("links").innerHTML="";
+216   OVS.forEach(function(o){
+217    var ok=o[2]||unlocked,row=document.createElement("div");
+218    row.className="lk"+(ok?"":" lock");
+219    var u=CONFIG.base+o[0]+".html";
+220    row.innerHTML="<div><b>"+o[1]+"</b><code>"+(ok?u:"Premium : clé requise")+"</code></div>";
+221    var b=document.createElement("button");b.className="btn ghost";b.textContent=ok?"Copier le lien":"Verrouillé";b.disabled=!ok;
+222    if(ok)b.addEventListener("click",function(){copy(u,b)});
+223    row.appendChild(b);$("links").appendChild(row);
+224   });
+225  }
+226  links(false);
+227  $("unlock").addEventListener("click",function(){
+228   var k=$("key").value.trim().toUpperCase(),ok=CONFIG.keys.some(function(x){return x.toUpperCase()===k});
+229   $("km").textContent=ok?"Clé valide : tous les overlays Premium sont débloqués.":"Clé invalide. Vérifie le message reçu après ton paiement.";
+230   links(ok);
+231  });
+232  function sha(t){return crypto.subtle.digest("SHA-256",new TextEncoder().encode("ov1:"+t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")})}
+233  function stored(){if(CONFIG.adminHash)return CONFIG.adminHash;try{return localStorage.getItem("adm")||""}catch(e){return ""}}
+234  function gateInit(){
+235   var h=stored();
+236   $("gt").textContent=h?"Entre ton code admin.":"Première visite : crée ton code admin. Il ne pourra plus être changé ensuite.";
+237   $("gconf").hidden=!!h;$("gbtn").textContent=h?"Entrer":"Créer mon code";
+238  }
+239  $("gbtn").addEventListener("click",function(){
+240   var h=stored(),p=$("gpw").value,m=$("gm");
+241   if(!p){m.textContent="Entre un code.";return}
+242   if(h){sha(p).then(function(x){if(x===h){$("gate").hidden=true;$("adm").hidden=false}else m.textContent="Code incorrect."});return}
+243   if(p.length<6){m.textContent="Minimum 6 caractères.";return}
+244   if(p!==$("gpw2").value){m.textContent="Les deux codes sont différents.";return}
+245   sha(p).then(function(x){
+246    try{localStorage.setItem("adm",x)}catch(e){}
+247    $("gate").hidden=true;$("adm").hidden=false;$("ghash").hidden=false;
+248    $("ghash").innerHTML="<b>Code créé et verrouillé.</b><p class=\"pm\">Il est enregistré sur cet appareil. Pour qu’il marche partout et que personne d’autre ne puisse en créer un, colle cette empreinte dans <code>CONFIG.adminHash</code> puis republie le site :</p><code style=\"word-break:break-all\">"+x+"</code>";
+249   });
+250  });
+251  function showAdmin(){var on=location.hash==="#admin";$("admin").hidden=!on;if(on&&$("adm").hidden&&$("ghash").hidden)gateInit()}
+252  showAdmin();window.addEventListener("hashchange",showAdmin);
+253  $("gen").addEventListener("click",function(){
+254   var n=Math.min(100,Math.max(1,+$("gn").value||1)),p=Math.min(100,Math.max(1,+$("gp").value||1)),x=($("gx").value||"LIVE").toUpperCase().replace(/[^A-Z0-9]/g,""),al="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",out=[];
+255   for(var i=0;i<n;i++){var a=new Uint8Array(6);crypto.getRandomValues(a);var s="";for(var j=0;j<6;j++)s+=al[a[j]%al.length];out.push('"'+x+"-"+s+'":'+p+",")}
+256   $("gout").value=out.join("\n");
+257  });
+258  var navA=document.querySelectorAll("nav.top a"),secs=["overlays","tarifs","recuperer","comment"];
+259  function spy(){
+260   var cur=secs[0];
+261   secs.forEach(function(s){var e=$(s);if(e&&e.getBoundingClientRect().top<140)cur=s});
+262   navA.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+cur)});
+263  }
+264  window.addEventListener("scroll",spy,{passive:true});spy();
+265  var v=1284,rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+266  if(!rm)setInterval(function(){v+=Math.round(Math.random()*6-2);$("vw").textContent=v.toLocaleString("fr-FR")},1800);
+267  </script>
+268  </body>
+269  </html>
